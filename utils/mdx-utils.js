@@ -7,13 +7,21 @@ export const getPosts = async () => {
         return data;
     }
 
-    return []
+    return [data]
 }
 
 export const getPostBySlug = async (id) => {
+    try {
+        // Fazendo a requisição para buscar o post específico pelo ID
+        const { data } = await api.get(`/posts?id=eq.${id}`);
 
-    //TODO: BUSCAR UM POST EM ESPECIFICO.
-    //const {data} = await api.get(`/post?id=eq.${id}`)
+        if (data && data.length > 0) {
+            return data[0]; // Retorna o primeiro post encontrado
+        }
 
-    return {}
+        return null;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        return null;
+    }
 }
